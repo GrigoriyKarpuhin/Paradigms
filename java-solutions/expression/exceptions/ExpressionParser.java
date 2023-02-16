@@ -7,12 +7,16 @@ import expression.parser.TripleParser;
 
 public class ExpressionParser extends BaseParser implements TripleParser {
 
-    public TripleExpression parse(String expression) throws Exception {
+    public TripleExpression parse(String expression) {
         if (validChecker(expression)) {
             sourceTake(new StringSource(expression));
             return parseExpr();
         } else {
-            throw new Exception("Invalid expression: " + expression);
+            try {
+                throw new InvalidInputException("Invalid expression: " + expression);
+            } catch (InvalidInputException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -164,7 +168,7 @@ public class ExpressionParser extends BaseParser implements TripleParser {
                     if (!test('(') && !Character.isWhitespace(ch)) {
                         return false;
                     }
-                } else if (test ('l')) {
+                } else if (test('l')) {
                     take();
                     expect("ear");
                     hasTaken = true;
