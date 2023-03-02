@@ -92,4 +92,20 @@ public class ArrayQueueADT {
         queue.size = 0;
         return queue;
     }
+
+    // Pred: true
+    // Post: result == "[a1, a2, a3, .... ,an]" && n' == n && ∀i: a'[i] == a[i]
+    public static String toStr(final ArrayQueueADT queue) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < queue.size; i++) {
+            int index = (queue.start + i) % queue.elements.length;
+            sb.append(queue.elements[index]);
+            if (i != queue.size - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

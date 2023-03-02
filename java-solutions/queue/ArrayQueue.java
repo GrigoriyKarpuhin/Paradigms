@@ -91,4 +91,20 @@ public class ArrayQueue {
         size = 0;
         elements = new Object[2];
     }
+
+    //Pred: true
+    //Post: result == "[a1, a2, a3, .... ,an]" && n == n' && ∀i: a'[i] == a[i]
+    public String toStr() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < size; i++) {
+            int index = (start + i) % elements.length;
+            sb.append(elements[index]);
+            if (i != size - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
