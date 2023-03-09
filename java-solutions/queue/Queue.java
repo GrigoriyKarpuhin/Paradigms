@@ -34,4 +34,8 @@ public interface Queue {
     // Pred: true
     // Post: n' == 0 && ∀i: a'[i] == null && Imm(n)
     void clear();
+
+    // Pred: true
+    // Post: result == count(element) && Imm(n)
+    int count(Object element);
 }

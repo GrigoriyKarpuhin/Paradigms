@@ -45,4 +45,16 @@ public abstract class AbstractQueue implements Queue {
         clearImpl();
     }
     protected abstract void clearImpl();
+
+    public int count(Object element) {
+        int res = 0;
+        for (int i = 0; i < size; i++) {
+            if (element.equals(element())) {
+                res++;
+            }
+            enqueue(element());
+            dequeue();
+        }
+        return res;
+    }
 }
