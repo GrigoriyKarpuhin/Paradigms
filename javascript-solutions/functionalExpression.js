@@ -1,42 +1,34 @@
 "use strict";
 
-let negate;
-negate = a => (x, y, z) => -a(x, y, z);
-
-let cnst;
-cnst = a => () => a;
+const cnst = a => () => a;
 
 let variable;
-variable = function (varName) {
-    return function (...args) {
-        switch (varName) {
-            case "x":
-                return args[0];
-            case "y":
-                return args[1];
-            case "z":
-                return args[2];
-        }
+variable = varName => (...args) => {
+    switch (varName) {
+        case "x":
+            return args[0];
+        case "y":
+            return args[1];
+        case "z":
+            return args[2];
     }
 }
 
-let binaryOperation;
-binaryOperation = (operation) => (a, b) => (x, y, z) => operation(a(x, y, z), b(x, y, z));
+let operation;
+operation = (operation) => (...op) => (...args) => operation(...op.map(op => op(...args)));
 
-let add;
-add = binaryOperation((a, b) => a + b);
+const add = operation((a, b) => a + b);
 
-let subtract;
-subtract = binaryOperation((a, b) => a - b);
+const subtract = operation((a, b) => a - b);
 
-let multiply;
-multiply = binaryOperation((a, b) => a * b);
+const multiply = operation((a, b) => a * b);
 
-let divide;
-divide = binaryOperation((a, b) => a / b);
+const divide = operation((a, b) => a / b);
+
+const negate = operation(a => -a)
 
 const one = cnst(1);
 const two = cnst(2);
 
-const sin = a => (x, y, z) => Math.sin(a(x, y, z));
-const cos = b => (x, y, z) => Math.cos(b(x, y, z));
+const sin = operation(Math.sin);
+const cos = operation(Math.cos);
