@@ -7,8 +7,7 @@ let cnst;
 cnst = a => () => a;
 
 let variable;
-variable = function (varName) {
-    return function (...args) {
+variable = (varName) => (...args) => {
         switch (varName) {
             case "x":
                 return args[0];
@@ -18,13 +17,12 @@ variable = function (varName) {
                 return args[2];
         }
     }
-}
+
 
 let binaryOperation;
-binaryOperation = (operation) => (a, b) => (x, y, z) => operation(a(x, y, z), b(x, y, z));
+binaryOperation = (operation, ...opers) => (x, y, z) => operation(opers.map());
 
-let add;
-add = binaryOperation((a, b) => a + b);
+const add = binaryOperation((a, b) => a + b);
 
 let subtract;
 subtract = binaryOperation((a, b) => a - b);
@@ -38,5 +36,5 @@ divide = binaryOperation((a, b) => a / b);
 const one = cnst(1);
 const two = cnst(2);
 
-const sin = a => (x, y, z) => Math.sin(a(x, y, z));
-const cos = b => (x, y, z) => Math.cos(b(x, y, z));
+const sin = Math.sin;
+const cos = Math.cos;
