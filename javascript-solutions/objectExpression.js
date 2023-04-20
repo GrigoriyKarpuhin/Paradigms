@@ -126,7 +126,7 @@ const validChecker = function (expressionPref) {
                 if (token in mapOp) {
                     bracketFlag = false;
                 } else {
-                    throw new InvalidExpressionError("extra brackets");
+                    throw new InvalidExpressionError("extra brackets in position " + (tokens.indexOf(token) - 1) + " of " + expressionPref);
                 }
             }
             if (token === '(') {
@@ -155,20 +155,19 @@ const parsePrefix = function (expressionPref) {
             if (token === "") continue;
             if (token in mapVar) {
                 if (operFlag === true) {
-                    throw new InvalidExpressionError("extra operation");
+                    throw new InvalidExpressionError("extra operation in position " + (tokens.indexOf(token) - 1) + " of " + expressionPref);
                 }
                 stack.push(mapVar[token]);
             } else if (token in mapOp) {
                 if (operFlag === true) {
-                    throw new InvalidExpressionError("extra operation");
+                    throw new InvalidExpressionError("extra operation in position " + (tokens.indexOf(token) - 1) + " of " + expressionPref);
                 }
-
                 operFlag = true;
                 const [operation, count] = mapOp[token];
                 const elements = [];
                 if (count !== 0) {
                     if (stack.length < count + 1) {
-                        throw new InvalidExpressionError("extra operation");
+                        throw new InvalidExpressionError("extra operation in position " + (tokens.indexOf(token) - 1) + " of " + expressionPref);
                     }
                     let temp = 0;
                     while (stack[stack.length - 1] !== ')' && stack.length > 0) {
@@ -176,7 +175,7 @@ const parsePrefix = function (expressionPref) {
                         temp++;
                     }
                     if (temp !== count) {
-                        throw new InvalidExpressionError("extra operation");
+                        throw new InvalidExpressionError("extra operation in position " + (tokens.indexOf(token) - 1) + " of " + expressionPref);
                     }
                     stack.pop();
                     stack.push(new operation(...elements));
@@ -189,12 +188,12 @@ const parsePrefix = function (expressionPref) {
                 }
             } else if (!isNaN(+token)) {
                 if (operFlag === true) {
-                    throw new InvalidExpressionError("extra operation");
+                    throw new InvalidExpressionError("extra operation in position " + (tokens.indexOf(token) - 1) + " of " + expressionPref);
                 }
                 stack.push(new Const(parseInt(token)));
             } else if (token === ')') {
                 if (operFlag === true) {
-                    throw new InvalidExpressionError("extra operation");
+                    throw new InvalidExpressionError("extra operation in position " + (tokens.indexOf(token) - 1) + " of " + expressionPref);
                 }
                 stack.push(token);
             } else if (token === '(') {
@@ -204,7 +203,7 @@ const parsePrefix = function (expressionPref) {
             }
         }
         if (stack.length > 1) {
-            throw new InvalidExpressionError("extra operands");
+            throw new InvalidExpressionError("extra operands:" + stack.join(" ") + " in " + expressionPref);
         }
         return stack.pop();
     } catch (e) {
