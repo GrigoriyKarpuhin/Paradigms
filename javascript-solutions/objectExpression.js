@@ -162,6 +162,7 @@ const parsePrefix = function (expressionPref) {
                 if (operFlag === true) {
                     throw new InvalidExpressionError("extra operation");
                 }
+
                 operFlag = true;
                 const [operation, count] = mapOp[token];
                 const elements = [];
