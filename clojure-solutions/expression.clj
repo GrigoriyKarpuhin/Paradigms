@@ -9,9 +9,7 @@
 (def add (operation +))
 (def subtract (operation -))
 (def multiply (operation *))
-(defn div [a b]
-  (/ (double a) b)
-  )
+(defn div [a b] (/ (double a) b))
 (def divide (operation div))
 (def negate (operation -))
 (def exp (operation (fn [x] (Math/exp x))))
@@ -28,13 +26,13 @@
     )
   )
 
-(def mapOp {'+ add,
-            '- subtract,
-            '* multiply,
-            '/ divide,
+(def mapOp {'+      add,
+            '-      subtract,
+            '*      multiply,
+            '/      divide,
             'negate negate,
-            'exp exp,
-            'ln ln}
+            'exp    exp,
+            'ln     ln}
   )
 
 (defn parse [expression]
